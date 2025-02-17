@@ -9,7 +9,7 @@
       "image_name": "minecraft-server-image",
       "image_family": "minecraft-images",
       "image_description": "Image pre-configurée pour serveurs Minecraft",
-      "ssh_username": "ubuntu"
+      "ssh_username": "root"
     }
   ],
   "provisioners": [
