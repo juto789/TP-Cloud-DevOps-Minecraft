@@ -139,6 +139,15 @@ resource "google_monitoring_metric_descriptor" "minecraft_cpu" {
     ingest_delay  = "0s"
     sample_period = "60s"
   }
+resource "null_resource" "ansible_provision" {
+  depends_on = [google_compute_instance.minecraft_server]
+
+  provisioner "local-exec" {
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i inventory.ini install_minecraft.yml --user ubuntu --private-key ~/.ssh/id_rsa"
+  }
+}
+
+
 }
 
 
