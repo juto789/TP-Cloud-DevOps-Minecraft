@@ -2,7 +2,7 @@
   "builders": [
     {
       "type": "googlecompute",
-      "project_id": "YOUR_GCP_PROJECT_ID",
+      "project_id": "steady-adapter-451207-c1",
       "zone": "europe-west1-b",
       "machine_type": "e2-medium",
       "source_image_family": "debian-11",
