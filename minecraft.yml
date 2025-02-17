@@ -1,0 +1,68 @@
+---
+- name: Configuration des serveurs Minecraft
+  hosts: minecraft_servers
+  become: yes
+  tasks:
+    - name: Mise à jour du serveur
+      apt:
+        update_cache: yes
+
+    - name: Installation de Java et Screen
+      apt:
+        name:
+          - openjdk-17-jre-headless
+          - screen
+        state: present
+
+    - name: Création du dossier Minecraft
+      file:
+        path: /opt/minecraft
+        state: directory
+        owner: ubuntu
+        group: ubuntu
+        mode: '0755'
+
+    - name: Téléchargement de PaperMC
+      get_url:
+        url: "https://papermc.io/api/v2/projects/paper/versions/latest/builds/latest/downloads/paper-latest.jar"
+        dest: "/opt/minecraft/server.jar"
+
+    - name: Accepter l'EULA
+      copy:
+        dest: "/opt/minecraft/eula.txt"
+        content: "eula=true"
+
+    - name: Définir les paramètres du serveur
+      copy:
+        dest: "/opt/minecraft/server.properties"
+        content: |
+          gamemode=survival
+          difficulty=normal
+          max-players=20
+        owner: ubuntu
+        group: ubuntu
+        mode: '0644'
+
+    - name: Création du service systemd Minecraft
+      copy:
+        dest: "/etc/systemd/system/minecraft.service"
+        content: |
+          [Unit]
+          Description=Minecraft Server
+          After=network.target
+
+          [Service]
+          User=ubuntu
+          WorkingDirectory=/opt/minecraft
+          ExecStart=/usr/bin/screen -DmS minecraft java -Xmx2G -Xms2G -jar server.jar nogui
+          Restart=always
+
+          [Install]
+          WantedBy=multi-user.target
+        mode: '0644'
+
+    - name: Activer et démarrer le service Minecraft
+      systemd:
+        name: minecraft
+        enabled: yes
+        state: started
