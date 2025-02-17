@@ -139,6 +139,7 @@ resource "google_monitoring_metric_descriptor" "minecraft_cpu" {
     ingest_delay  = "0s"
     sample_period = "60s"
   }
+}
 resource "null_resource" "ansible_provision" {
   depends_on = [google_compute_instance.minecraft_server]
 
@@ -147,7 +148,5 @@ resource "null_resource" "ansible_provision" {
   }
 }
 
-
-}
 
 
