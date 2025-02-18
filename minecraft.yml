@@ -22,9 +22,9 @@
         group: ubuntu
         mode: '0755'
 
-    - name: Téléchargement de PaperMC
+    - name: Téléchargement du serveur Minecraft
       get_url:
-        url: "https://papermc.io/api/v2/projects/paper/versions/latest/builds/latest/downloads/paper-latest.jar"
+        url: "https://launcher.mojang.com/v1/objects/abc123/minecraft_server.1.20.1.jar"
         dest: "/opt/minecraft/server.jar"
 
     - name: Accepter l'EULA
@@ -32,7 +32,7 @@
         dest: "/opt/minecraft/eula.txt"
         content: "eula=true"
 
-    - name: Définir les paramètres du serveur
+    - name: Configuration du serveur
       copy:
         dest: "/opt/minecraft/server.properties"
         content: |
