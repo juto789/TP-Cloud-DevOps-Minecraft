@@ -19,12 +19,10 @@ resource "google_compute_instance" "minecraft_server" {
 
   boot_disk {
     initialize_params {
-      image = "debian-11"
-      size  = 10
-      type  = "pd-standard"
+      image = "minecraft-image"  # Image Packer pré-configurée
     }
   }
-
+ 
   network_interface {
     network = "default"
     access_config {}
